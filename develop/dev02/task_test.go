@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"testing"
 )
 
@@ -12,14 +13,14 @@ func TestUnpackString(t *testing.T) {
 	}{
 		{"a4bc2d5e", "aaaabccddddde", nil},
 		{"abcd", "abcd", nil},
-		{"45", "", nil},
+		{"45", " ", errors.New("Некорректная строка")},
 		{"", "", nil},
 	}
 
 	for _, tc := range testCases {
 		result, err := UnpackString(tc.input)
 
-		if result != tc.expected {
+		if result == tc.expected {
 			t.Errorf("Для входной строки %s ожидался результат %s, получено %s", tc.input, tc.expected, result)
 		}
 
